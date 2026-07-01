@@ -14,6 +14,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
+import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
 import { Route as CoursesSlugIndexRouteImport } from './routes/courses.$slug.index'
 import { Route as CoursesSlugEnrollRouteImport } from './routes/courses.$slug.enroll'
 
@@ -42,15 +43,20 @@ const CoursesIndexRoute = CoursesIndexRouteImport.update({
   path: '/',
   getParentRoute: () => CoursesRoute,
 } as any)
-const CoursesSlugIndexRoute = CoursesSlugIndexRouteImport.update({
-  id: '/$slug/',
-  path: '/$slug/',
+const CoursesSlugRoute = CoursesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
   getParentRoute: () => CoursesRoute,
 } as any)
+const CoursesSlugIndexRoute = CoursesSlugIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CoursesSlugRoute,
+} as any)
 const CoursesSlugEnrollRoute = CoursesSlugEnrollRouteImport.update({
-  id: '/$slug/enroll',
-  path: '/$slug/enroll',
-  getParentRoute: () => CoursesRoute,
+  id: '/enroll',
+  path: '/enroll',
+  getParentRoute: () => CoursesSlugRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRouteWithChildren
+  '/courses/$slug': typeof CoursesSlugRouteWithChildren
   '/courses/': typeof CoursesIndexRoute
   '/courses/$slug/enroll': typeof CoursesSlugEnrollRoute
   '/courses/$slug/': typeof CoursesSlugIndexRoute
@@ -76,6 +83,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRouteWithChildren
+  '/courses/$slug': typeof CoursesSlugRouteWithChildren
   '/courses/': typeof CoursesIndexRoute
   '/courses/$slug/enroll': typeof CoursesSlugEnrollRoute
   '/courses/$slug/': typeof CoursesSlugIndexRoute
@@ -87,6 +95,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/courses'
+    | '/courses/$slug'
     | '/courses/'
     | '/courses/$slug/enroll'
     | '/courses/$slug/'
@@ -104,6 +113,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/courses'
+    | '/courses/$slug'
     | '/courses/'
     | '/courses/$slug/enroll'
     | '/courses/$slug/'
@@ -153,33 +163,52 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CoursesIndexRouteImport
       parentRoute: typeof CoursesRoute
     }
+    '/courses/$slug': {
+      id: '/courses/$slug'
+      path: '/$slug'
+      fullPath: '/courses/$slug'
+      preLoaderRoute: typeof CoursesSlugRouteImport
+      parentRoute: typeof CoursesRoute
+    }
     '/courses/$slug/': {
       id: '/courses/$slug/'
-      path: '/$slug'
+      path: '/'
       fullPath: '/courses/$slug/'
       preLoaderRoute: typeof CoursesSlugIndexRouteImport
-      parentRoute: typeof CoursesRoute
+      parentRoute: typeof CoursesSlugRoute
     }
     '/courses/$slug/enroll': {
       id: '/courses/$slug/enroll'
-      path: '/$slug/enroll'
+      path: '/enroll'
       fullPath: '/courses/$slug/enroll'
       preLoaderRoute: typeof CoursesSlugEnrollRouteImport
-      parentRoute: typeof CoursesRoute
+      parentRoute: typeof CoursesSlugRoute
     }
   }
 }
 
-interface CoursesRouteChildren {
-  CoursesIndexRoute: typeof CoursesIndexRoute
+interface CoursesSlugRouteChildren {
   CoursesSlugEnrollRoute: typeof CoursesSlugEnrollRoute
   CoursesSlugIndexRoute: typeof CoursesSlugIndexRoute
 }
 
-const CoursesRouteChildren: CoursesRouteChildren = {
-  CoursesIndexRoute: CoursesIndexRoute,
+const CoursesSlugRouteChildren: CoursesSlugRouteChildren = {
   CoursesSlugEnrollRoute: CoursesSlugEnrollRoute,
   CoursesSlugIndexRoute: CoursesSlugIndexRoute,
+}
+
+const CoursesSlugRouteWithChildren = CoursesSlugRoute._addFileChildren(
+  CoursesSlugRouteChildren,
+)
+
+interface CoursesRouteChildren {
+  CoursesSlugRoute: typeof CoursesSlugRouteWithChildren
+  CoursesIndexRoute: typeof CoursesIndexRoute
+}
+
+const CoursesRouteChildren: CoursesRouteChildren = {
+  CoursesSlugRoute: CoursesSlugRouteWithChildren,
+  CoursesIndexRoute: CoursesIndexRoute,
 }
 
 const CoursesRouteWithChildren =
