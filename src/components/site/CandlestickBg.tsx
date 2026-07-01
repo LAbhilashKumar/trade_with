@@ -1,20 +1,28 @@
 // Decorative SVG - subtle candlestick + line chart pattern for hero backgrounds.
 export function CandlestickBg({ className = "" }: { className?: string }) {
   // Generate deterministic candles
+  const r2 = (n: number) => Math.round(n * 100) / 100;
   const candles = Array.from({ length: 60 }, (_, i) => {
     const seed = Math.sin(i * 12.9898) * 43758.5453;
     const r = seed - Math.floor(seed);
-    const y = 120 + r * 120;
-    const h = 20 + Math.abs(Math.sin(i * 0.7)) * 60;
+    const y = r2(120 + r * 120);
+    const h = r2(20 + Math.abs(Math.sin(i * 0.7)) * 60);
     const up = Math.sin(i * 1.3) > 0;
     const wick = h + 20 + r * 20;
-    return { x: i * 22 + 10, y, h, up, wickTop: y - (wick - h) / 2, wickBottom: y + h + (wick - h) / 2 };
+    return {
+      x: i * 22 + 10,
+      y,
+      h,
+      up,
+      wickTop: r2(y - (wick - h) / 2),
+      wickBottom: r2(y + h + (wick - h) / 2),
+    };
   });
   // Line path
   const linePts = Array.from({ length: 80 }, (_, i) => {
     const seed = Math.sin(i * 3.1 + 1.7) * 43758.5453;
     const r = seed - Math.floor(seed);
-    return `${i * 17},${180 + r * 90 + Math.sin(i / 4) * 30}`;
+    return `${i * 17},${r2(180 + r * 90 + Math.sin(i / 4) * 30)}`;
   }).join(" ");
 
   return (
