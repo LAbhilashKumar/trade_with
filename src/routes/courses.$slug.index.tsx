@@ -10,7 +10,7 @@ import {
 import { Check, Clock, Layers, ArrowRight, Star, ShieldCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export const Route = createFileRoute("/courses/$slug")({
+export const Route = createFileRoute("/courses/$slug/")({
   loader: ({ params }) => {
     const course = getCourse(params.slug);
     if (!course) throw notFound();
