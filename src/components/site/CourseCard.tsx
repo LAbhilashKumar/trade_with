@@ -59,11 +59,12 @@ export function CourseCard({ course }: { course: Course }) {
 }
 
 function MiniChart({ bullish }: { bullish: boolean }) {
+  const r2 = (n: number) => Math.round(n * 100) / 100;
   const pts = Array.from({ length: 20 }, (_, i) => {
     const seed = Math.sin(i * 4.3 + (bullish ? 1 : 5)) * 43758.5453;
     const r = seed - Math.floor(seed);
     const base = bullish ? 90 - i * 2.2 : 30 + i * 2.2;
-    return `${i * 18 + 10},${base + r * 20}`;
+    return `${i * 18 + 10},${r2(base + r * 20)}`;
   }).join(" ");
   return (
     <svg viewBox="0 0 360 130" className="absolute inset-0 h-full w-full">
