@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { getCourse, formatINR } from "@/lib/mock-data";
+import { getCourse, formatINR, type Course } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -37,7 +37,7 @@ export const Route = createFileRoute("/courses/$slug")({
 });
 
 function CourseDetail() {
-  const { course } = Route.useLoaderData();
+  const { course } = Route.useLoaderData() as { course: Course };
   const [showSticky, setShowSticky] = useState(false);
   useEffect(() => {
     const onScroll = () => setShowSticky(window.scrollY > 500);
