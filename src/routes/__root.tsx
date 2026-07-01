@@ -77,14 +77,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "TWS Forex Trading — Structured Forex Education" },
+      { name: "description", content: "Mentor-backed forex trading courses for serious traders. Structured curriculum, live sessions, real accountability." },
+      { name: "author", content: "TWS Forex Trading" },
+      { property: "og:title", content: "TWS Forex Trading — Structured Forex Education" },
+      { property: "og:description", content: "Mentor-backed forex trading courses for serious traders." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:site", content: "@TWSForex" },
     ],
     links: [
       {
